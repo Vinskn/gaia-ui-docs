@@ -4,27 +4,385 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+/**
+ * Gaia UI - Anime-Inspired & Professional Documentation Theme
+ * Inspired by Elysia.js aesthetic: sleek dark backdrop, sakura neon & violet glows.
+ */
+
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-color-primary: #ec4899;
+  --ifm-color-primary-dark: #db2777;
+  --ifm-color-primary-darker: #be185d;
+  --ifm-color-primary-darkest: #9d174d;
+  --ifm-color-primary-light: #f472b6;
+  --ifm-color-primary-lighter: #f9a8d4;
+  --ifm-color-primary-lightest: #fdf2f8;
+  --ifm-code-font-size: 92%;
+  --docusaurus-highlighted-code-line-bg: rgba(236, 72, 153, 0.1);
+  --gaia-font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Dark mode by default styling aligned with Elysia.js vibe */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-background-color: #0c0d14;
+  --ifm-background-surface-color: #121420;
+  --ifm-color-primary: #f43f5e;
+  --ifm-color-primary-dark: #e11d48;
+  --ifm-color-primary-darker: #be123c;
+  --ifm-color-primary-darkest: #9f1239;
+  --ifm-color-primary-light: #fb7185;
+  --ifm-color-primary-lighter: #fda4af;
+  --ifm-color-primary-lightest: #ffe4e6;
+  --ifm-navbar-background-color: rgba(12, 13, 20, 0.82);
+  --ifm-footer-background-color: #08090e;
+  --docusaurus-highlighted-code-line-bg: rgba(244, 63, 94, 0.15);
+}
+
+/* ==========================================================================
+   Docusaurus Navbar Styling & Tailwind Preflight Conflict Resolution
+   ========================================================================== */
+
+.navbar {
+  height: 3.75rem !important;
+  padding: 0.5rem 1.25rem !important;
+  display: flex !important;
+  align-items: center !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme='light'] .navbar {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.navbar__inner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.navbar__items {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 1 auto !important;
+  gap: 0.5rem !important;
+}
+
+.navbar__items--right {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0.5rem !important;
+  flex: 0 0 auto !important;
+}
+
+.navbar__brand {
+  display: flex !important;
+  align-items: center !important;
+  margin-right: 1.25rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.navbar__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.navbar__logo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  margin-right: 0.6rem !important;
+  border-radius: 8px;
+  flex-shrink: 0 !important;
+}
+
+.navbar__logo img {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  object-fit: contain !important;
+  border-radius: 8px;
+  filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.35));
+  transition: transform 0.3s ease;
+}
+
+/* Prevent Docusaurus ThemedComponent dark/light duplication */
+html[data-theme='light'] .navbar__logo [class*="themedComponent--dark"] {
+  display: none !important;
+}
+html[data-theme='dark'] .navbar__logo [class*="themedComponent--light"] {
+  display: none !important;
+}
+
+.navbar__logo img:hover {
+  transform: rotate(6deg) scale(1.08);
+}
+
+.navbar__item {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0.4rem 0.75rem !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  color: #94a3b8 !important;
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.navbar__item:hover,
+.navbar__link:hover,
+.navbar__link--active {
+  color: #f43f5e !important;
+  background-color: rgba(244, 63, 94, 0.08) !important;
+  text-decoration: none !important;
+}
+
+/* External link SVG inside navbar items should stay inline with text */
+.navbar svg[class*="iconExternalLink"] {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin-left: 0.35rem !important;
+  width: 12px !important;
+  height: 12px !important;
+  color: inherit !important;
+}
+
+/* Hide theme switch toggle and mobile burger menu completely */
+.navbar [class*="colorModeToggle"],
+.navbar__toggle {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Modern Anime Glassmorphism Footer
+   ========================================================================== */
+
+.footer {
+  position: relative;
+  background-color: #08090e !important;
+  background-image: 
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(244, 63, 94, 0.12), transparent 70%),
+    linear-gradient(180deg, #0c0d14 0%, #06070a 100%) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4.5rem 1.5rem 3rem !important;
+  color: #94a3b8;
+  overflow: hidden;
+}
+
+/* Top neon accent line */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(244, 63, 94, 0.5), rgba(168, 85, 247, 0.5), transparent);
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Footer Grid Columns */
+.footer__links {
+  margin-bottom: 3.5rem;
+}
+
+.footer__col {
+  padding: 0 1.25rem !important;
+  margin-bottom: 2rem;
+}
+
+.footer__title {
+  color: #ffffff !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem !important;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer__title::after {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: #f43f5e;
+  border-radius: 2px;
+}
+
+.footer__items {
+  list-style: none;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer__item {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.footer__link-item {
+  color: #94a3b8 !important;
+  font-size: 0.92rem !important;
+  font-weight: 400;
+  text-decoration: none !important;
+  transition: all 0.25s ease !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.footer__link-item:hover {
+  color: #f43f5e !important;
+  transform: translateX(4px);
+  text-shadow: 0 0 12px rgba(244, 63, 94, 0.4);
+}
+
+/* External Link SVG icon inside footer */
+.footer svg[class*="iconExternalLink"] {
+  width: 12px !important;
+  height: 12px !important;
+  display: inline-block !important;
+  vertical-align: middle;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footer__link-item:hover svg[class*="iconExternalLink"] {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+/* Footer Logo Artwork */
+.footer__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem !important;
+  max-width: 48px !important;
+}
+
+.footer__logo img {
+  width: 48px !important;
+  height: 48px !important;
+  object-fit: contain;
+  border-radius: 14px;
+  filter: drop-shadow(0 0 14px rgba(244, 63, 94, 0.45));
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.footer__logo img:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Copyright Row */
+.footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 2rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.footer__copyright {
+  color: #64748b !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(244, 63, 94, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 63, 94, 0.45);
+}
+
+/* Gaia UI Button Classes (Isolated to avoid breaking Docusaurus layout) */
+button[class*="relative inline-flex"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  font-family: inherit !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+
+button[class*="relative inline-flex"]:active {
+  transform: scale(0.96) !important;
+}
+
+button[class*="h-7"] { height: 1.75rem !important; padding: 0 0.625rem !important; gap: 0.25rem !important; font-size: 11px !important; border-radius: 8px !important; }
+button[class*="h-8"] { height: 2rem !important; padding: 0 0.75rem !important; gap: 0.375rem !important; font-size: 0.75rem !important; border-radius: 8px !important; }
+button[class*="h-9"] { height: 2.25rem !important; padding: 0 1rem !important; gap: 0.5rem !important; font-size: 0.875rem !important; border-radius: 12px !important; }
+button[class*="h-11"] { height: 2.75rem !important; padding: 0 1.25rem !important; gap: 0.5rem !important; font-size: 1rem !important; border-radius: 12px !important; }
+button[class*="h-13"] { height: 3.25rem !important; padding: 0 1.5rem !important; gap: 0.625rem !important; font-size: 1.125rem !important; border-radius: 16px !important; }
+
+/* Base variant fallbacks when no custom color is passed */
+button[class*="bg-neutral-900"] {
+  background-color: #18181b !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+button[class*="bg-transparent"] {
+  background-color: transparent !important;
+  color: #e4e4e7 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+button[class*="bg-red-600"] {
+  background-color: #e11d48 !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* Spinner */
+@keyframes spinLoader {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin {
+  animation: spinLoader 0.9s linear infinite !important;
 }

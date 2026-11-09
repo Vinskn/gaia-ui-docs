@@ -1,0 +1,150 @@
+---
+id: installation
+title: Installation
+sidebar_label: Installation
+sidebar_position: 1
+description: Learn how to install @navatech/gaia-ui, configure peer dependencies, and set up runtime requirements.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Installation
+
+Welcome to **Gaia UI**! This guide walks you through installing the package, installing required peer dependencies, and setting up the prerequisites to run Gaia UI in your React project.
+
+---
+
+## 1. Package Installation
+
+Install `@navatech/gaia-ui` using your package manager of choice. We recommend **[Bun](https://bun.sh)** for optimal performance.
+
+<Tabs groupId="package-manager">
+  <TabItem value="bun" label="Bun" default>
+
+```bash
+bun add @navatech/gaia-ui
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm install @navatech/gaia-ui
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm add @navatech/gaia-ui
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+```bash
+yarn add @navatech/gaia-ui
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## 2. Peer Dependencies
+
+Gaia UI is built for modern React 19 environments and TanStack Router. You must install the following peer dependencies in your application:
+
+| Package | Minimum Version | Purpose |
+| :--- | :--- | :--- |
+| `react` | `^19.3.1` | Core React runtime |
+| `react-dom` | `^19.3.1` | React DOM renderer |
+| `@tanstack/react-router` | `^1.170.45` | Client-side routing engine for navigation components |
+
+:::tip Quick Install
+Run the command below to install all peer dependencies in one step:
+:::
+
+<Tabs groupId="package-manager">
+  <TabItem value="bun" label="Bun" default>
+
+```bash
+bun add react@^19.3.1 react-dom@^19.3.1 @tanstack/react-router@^1.170.45
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npm install react@^19.3.1 react-dom@^19.3.1 @tanstack/react-router@^1.170.45
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm add react@^19.3.1 react-dom@^19.3.1 @tanstack/react-router@^1.170.45
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+```bash
+yarn add react@^19.3.1 react-dom@^19.3.1 @tanstack/react-router@^1.170.45
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## 3. Requirements to Run Gaia UI
+
+To ensure all components render properly without runtime issues, verify that your project satisfies the following requirements:
+
+### 3.1 Node.js / Bun Runtime
+- **Bun**: `^1.0.0` or later *(recommended)*
+- **Node.js**: `>= 18.0.0` or `>= 20.0.0`
+
+### 3.2 Router Context (`@tanstack/react-router`)
+Navigation components (such as `Navbar`, `NavTwo`, `SpeedDialMenu`, and `AnimaNavbar`) utilize routing hooks from `@tanstack/react-router`.
+
+Make sure your component tree is wrapped with `<RouterProvider router={router} />`:
+
+```tsx title="App.tsx"
+import { RouterProvider, createRouter, createRootRoute } from '@tanstack/react-router';
+
+// Define your route tree and pass it to RouterProvider
+const rootRoute = createRootRoute({
+  component: () => <YourComponent />,
+});
+
+const router = createRouter({ routeTree: rootRoute });
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
+```
+
+### 3.4 License Provider (For Anima Pro Tier)
+Gaia UI is organized into two tiers:
+- **Base Tier** (`@navatech/gaia-ui` or `@navatech/gaia-ui/base`): Open to use directly without a license key.
+- **Premium Tier** (`AnimaComponents`): Requires an activated license and must be enclosed within `<LicenseProvider>`.
+
+If you are using Anima components, wrap your app (or the relevant page section) with `<LicenseProvider>`:
+
+```tsx title="App.tsx"
+import { LicenseProvider, AnimaButton } from "@navatech/gaia-ui";
+
+export function App() {
+  return (
+    <LicenseProvider>
+      {/* Anima components require LicenseProvider */}
+      <AnimaButton type="primary" text="Explore Anima" gradient />
+    </LicenseProvider>
+  );
+}
+```
+
+More info about premium tier
