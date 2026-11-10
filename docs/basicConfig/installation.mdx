@@ -127,24 +127,11 @@ export default function App() {
 }
 ```
 
-### 3.4 License Provider (For Anima Pro Tier)
-Gaia UI is organized into two tiers:
-- **Base Tier** (`@navatech/gaia-ui` or `@navatech/gaia-ui/base`): Open to use directly without a license key.
-- **Premium Tier** (`AnimaComponents`): Requires an activated license and must be enclosed within `<LicenseProvider>`.
+### 3.3 Tailwind CSS
+Gaia UI relies heavily on Tailwind CSS for styling. Ensure Tailwind CSS is properly configured in your project.
 
-If you are using Anima components, wrap your app (or the relevant page section) with `<LicenseProvider>`:
+Recommended using tailwind css V.4X
 
-```tsx title="App.tsx"
-import { LicenseProvider, AnimaButton } from "@navatech/gaia-ui";
-
-export function App() {
-  return (
-    <LicenseProvider>
-      {/* Anima components require LicenseProvider */}
-      <AnimaButton type="primary" text="Explore Anima" gradient />
-    </LicenseProvider>
-  );
-}
+```css title="index.css"
+@import "tailwind.css" 
 ```
-
-More info about premium tier

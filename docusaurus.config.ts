@@ -12,6 +12,9 @@ const config: Config = {
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
+    faster: {
+      swcHtmlMinimizer: false,
+    },
   },
 
   // Set the production url of your site here
@@ -65,6 +68,18 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    async function tailwindPlugin(context, options) {
+      return {
+        name: 'docusaurus-tailwindcss',
+        configurePostCss(postcssOptions) {
+          postcssOptions.plugins.push(require('@tailwindcss/postcss'));
+          return postcssOptions;
+        },
+      };
+    },
+  ],
+
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
@@ -88,6 +103,8 @@ const config: Config = {
           label: 'Docs',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/pricing', label: 'Pricing', position: 'left'},
+        {to: '/collaboration', label: 'Collaboration', position: 'left'},
         {
           href: 'https://www.npmjs.com/package/@navatech/gaia-ui',
           label: 'NPM',

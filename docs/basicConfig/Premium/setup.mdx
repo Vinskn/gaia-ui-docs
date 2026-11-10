@@ -1,0 +1,152 @@
+---
+id: setup
+title: Premium Setup
+sidebar_label: Premium Setup
+sidebar_position: 1
+description: Learn how to activate your Gaia UI premium license and configure the LicenseProvider wrapper with TanStack Router.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Premium Setup
+
+This guide walks you through activating your **Gaia UI Premium Tier** license and configuring the required provider wrapper so that premium (Anima) components render properly throughout your application.
+
+---
+
+## 1. Premium License Setup
+
+To unlock premium features in Gaia UI (such as the Anima component collection and theme generation tooling), redeem your license code using the Gaia CLI.
+
+Run the redeem command using your package manager of choice:
+
+<Tabs groupId="package-manager">
+  <TabItem value="bun" label="Bun" default>
+
+```bash
+bunx gaia redeem <your-redeem-code>
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npx gaia redeem <your-redeem-code>
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm dlx gaia redeem <your-redeem-code>
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+```bash
+yarn dlx gaia redeem <your-redeem-code>
+```
+
+  </TabItem>
+</Tabs>
+
+:::tip What happens during redeem?
+The CLI validates your code against the Gaia license server and generates a local license credentials file, `gaia-key.json`. Once completed, premium access is verified and theme generation and other premium features are immediately unlocked.
+:::
+
+---
+
+## 2. Provider Configuration (`LicenseProvider`)
+
+To use Gaia UI in **Premium Mode**, all premium (Anima) components must be wrapped inside a `<LicenseProvider>`. Without this wrapper, premium components will not be able to verify your license and will render a fallback `<ErrorLicense />` state.
+
+Because Gaia UI is built for **TanStack Router**, you can integrate the provider in one of two places depending on your application architecture:
+
+1. **`__root.tsx`** *(Recommended)*
+2. **`main.tsx`** *(Alternative / Less Recommended)*
+
+---
+
+### Option A: In `__root.tsx` (Recommended)
+
+Wrapping the root route in TanStack Router is the recommended pattern. This ensures the license context is available across all nested routes, layouts, and navigation components (such as `AnimaNavbar`) while preserving access to TanStack Router hooks and `<Outlet />`.
+
+Wrap the root route component with `<LicenseProvider>` at the outermost level:
+
+```tsx title="src/routes/__root.tsx"
+import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { LicenseProvider } from '@navatech/gaia-ui';
+import gaiaKey from "../../gaia-key.json";
+
+export const Route = createRootRoute({
+  component: RootComponent,
+});
+
+function RootComponent() {
+  return (
+    <LicenseProvider token={gaiaKey.key}>
+      {/* ---------------------------------------------------- */}
+      {/* Place your global headers, navigation, or layouts    */}
+      {/* ---------------------------------------------------- */}
+
+      {/* Renders child routes */}
+      <Outlet />
+    </LicenseProvider>
+  );
+}
+```
+
+:::note Why is this recommended?
+- Directly wraps the root route tree where all child routes (`<Outlet />`) naturally reside.
+- Navigation components using routing hooks (`AnimaNavbar`, `SpeedDialMenu`) will seamlessly have access to both router and license contexts.
+- Clean separation between application bootstrap logic and UI routing context.
+:::
+
+---
+
+### Option B: In `main.tsx` (Less Recommended)
+
+Alternatively, you can wrap the entire `<RouterProvider />` inside `<LicenseProvider>` at the application entry point (`main.tsx` or `index.tsx`). 
+
+In this approach, `<LicenseProvider>` accepts `<RouterProvider>` as its children:
+
+```tsx title="src/main.tsx"
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { LicenseProvider } from '@navatech/gaia-ui';
+import { routeTree } from './routeTree.gen';
+import gaiaKey from "../../gaia-key.json";
+
+const router = createRouter({ routeTree });
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+  <TanStackProvider>
+    <RouterProvider 
+      router={router} 
+      InnerWrap={({ children }) => (
+        <LicenseProvider token={gaiaKey.key}>
+          {children}
+        </LicenseProvider>
+      )}
+    />
+  </TanStackProvider>
+</StrictMode>,
+);
+```
+
+:::warning Why is this less recommended?
+- Wrapping outside `<RouterProvider>` means components outside the route tree cannot consume TanStack Router context.
+- If your provider needs to access router state or navigation hooks in the future, it will be outside the routing context.
+:::
+
+---
+
+## 3. Next Steps
+
+Now that your premium license is redeemed and the provider wrapper is configured, proceed to the theme configuration guide to learn how to customize themes and use color utility tokens:
+
+- **[Theme Configuration](./themeConfig.mdx)** — Manage built-in presets, generate custom color schemes, and use Tailwind CSS tokens.

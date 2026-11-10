@@ -1,4 +1,4 @@
-import { Button } from "@navatech/gaia-ui";
+import { Button } from "@navatech/gaia-ui/base";
 import styles from "../../pages/index.module.css";
 
 export const StandartVerTest = () => {

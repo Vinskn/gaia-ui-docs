@@ -4,8 +4,8 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 
-// Built-in component from @navatech/gaia-ui
-import { Button } from "@navatech/gaia-ui";
+// Built-in component from @navatech/gaia-ui/base
+import { Button } from "@navatech/gaia-ui/base";
 import { AnimaButton, LicenseProvider } from "@navatech/gaia-ui/anima";
 import key from "../../gaia-key.json";
 

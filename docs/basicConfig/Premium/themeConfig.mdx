@@ -1,0 +1,279 @@
+---
+id: themeConfig
+title: Theme Configuration
+sidebar_label: Theme Configuration
+sidebar_position: 1
+description: Learn how to activate your Gaia UI premium license, manage themes using the CLI, and utilize schemaColor.css utility tokens with Tailwind CSS.
+---
+
+## 2. Theme Management Commands
+
+Once your premium license is active, you gain full access to the `gaia` theming suite to inspect, apply, and generate custom color schemes.
+
+### 2.1 View Available Themes (`theme list`)
+
+Run the following command to display all built-in theme presets:
+
+<Tabs groupId="package-manager">
+  <TabItem value="bun" label="Bun" default>
+
+```bash
+bunx gaia theme list
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npx gaia theme list
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm dlx gaia theme list
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+```bash
+yarn dlx gaia theme list
+```
+
+  </TabItem>
+</Tabs>
+
+> **Popular built-in presets include:**
+> - `vert` — Fresh, modern aurora green with neon accents (Wellness, Sustainability)
+> - `noir` — Deep dark tones paired with warm gold/bronze accents (Luxury, Enterprise)
+> - `crimson` — Dynamic modern red with vibrant contrast (Startups, Creative)
+> - `raphtalia` — Energetic warm sunset orange (Gaming, Media, E-commerce)
+> - `rimuru` — Futuristic tech blue and violet with cyan highlights (AI & SaaS)
+
+### 2.2 Apply a Built-in Theme (`theme <name>`)
+
+To apply one of the available preset themes to your application (for example, `vert`):
+
+<Tabs groupId="package-manager">
+  <TabItem value="bun" label="Bun" default>
+
+```bash
+bunx gaia theme vert
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npx gaia theme vert
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm dlx gaia theme vert
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+```bash
+yarn dlx gaia theme vert
+```
+
+  </TabItem>
+</Tabs>
+
+### 2.3 Create a Custom Theme Scheme
+
+If you want to tailor a unique color scheme for your brand or application, follow these two steps:
+
+#### Step 1: Initialize the Theme Configuration
+
+Run the theme initialization command to scaffold a configuration file:
+
+<Tabs groupId="package-manager">
+  <TabItem value="bun" label="Bun" default>
+
+```bash
+bunx gaia theme
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npx gaia theme
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm dlx gaia theme
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+```bash
+yarn dlx gaia theme
+```
+
+  </TabItem>
+</Tabs>
+
+This command generates a configuration file such as `config.json` (or `schemacolor.json`). Open this file to define your palette, including primary, secondary, accent, neutral, background, text, and button tokens.
+
+#### Step 2: Compile Theme CSS (`theme-gen`)
+
+After editing your color tokens in `config.json`, generate the compiled CSS stylesheet by running:
+
+<Tabs groupId="package-manager">
+  <TabItem value="bun" label="Bun" default>
+
+```bash
+bunx gaia theme-gen
+```
+
+  </TabItem>
+  <TabItem value="npm" label="npm">
+
+```bash
+npx gaia theme-gen
+```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+```bash
+pnpm dlx gaia theme-gen
+```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+```bash
+yarn dlx gaia theme-gen
+```
+
+  </TabItem>
+</Tabs>
+
+The CLI compiles your JSON values into design token CSS variables (saved to `schemacolor.css`) compatible with Tailwind CSS.
+
+---
+
+## 3. Automated `index.css` Setup & `@source` Directive
+
+When a theme is generated or applied, Gaia CLI automatically configures your root stylesheet (`index.css`) by importing the compiled CSS and injecting the `@source` directive.
+
+Here is an example of what your `index.css` will look like:
+
+```css title="src/index.css"
+@import "tailwindcss";
+@import "./anima/config/schemacolor.css";
+@source "../node_modules/@navatech/gaia-ui";
+
+/* ========================================================
+   Add custom overrides, additional themes, or custom CSS
+   BELOW these lines.
+   ======================================================== */
+```
+
+:::warning IMPORTANT: Do Not Modify the Automated Imports
+1. **Do not remove or alter** the `@import "./anima/config/schemacolor.css";` and `@source "../node_modules/@navatech/gaia-ui";` directives.
+2. The `@source` directive is required by Tailwind CSS to scan and generate utility classes used inside `@navatech/gaia-ui` components.
+3. If you want to add additional themes, fonts, or custom CSS rules, **always place them below these declarations**.
+:::
+
+---
+
+## 4. Using Color Utilities in Custom Components
+
+The generated `schemacolor.css` registers design tokens within a Tailwind CSS `@theme` block. These tokens are instantly available as standard Tailwind utility classes in your own custom React components.
+
+### 4.1 Token Class Reference
+
+| Category | Tailwind Utility Classes | Description |
+| :--- | :--- | :--- |
+| **Brand Colors** | `bg-palette-brand-primary`<br/>`text-palette-brand-primary`<br/>`border-palette-brand-primary`<br/>`text-palette-brand-accent`<br/>`bg-palette-brand-secondary` | Primary brand identity, highlight accent, and secondary brand colors. |
+| **Backgrounds** | `bg-background-page`<br/>`bg-background-section`<br/>`bg-background-inverse` | Main page background, secondary section surfaces, and dark contrast backgrounds. |
+| **Containers & Surfaces** | `bg-container-card-bg`<br/>`border-container-card-border`<br/>`bg-container-modal-bg`<br/>`bg-container-subtle-box-bg`<br/>`border-container-subtle-box-border` | Card surfaces, modal backdrops, and subtle accented container boxes with matching borders. |
+| **Typography** | `text-text-heading`<br/>`text-text-body`<br/>`text-text-muted`<br/>`text-text-link`<br/>`text-text-on-primary` | Headings, body copy, muted captions/placeholders, interactive hyperlinks, and high-contrast text on primary buttons. |
+| **Button Tokens** | `bg-button-primary-bg`<br/>`hover:bg-button-primary-bg-hover`<br/>`text-button-primary-text`<br/>`bg-button-danger-bg`<br/>`border-button-outline-border` | Primary button backgrounds, hover states, danger states, and outline borders. |
+| **Semantic Alerts** | `text-palette-semantic-success`<br/>`text-palette-semantic-warning`<br/>`text-palette-semantic-danger`<br/>`text-palette-semantic-info` | Status indicators for success, warning, error, and informational states. |
+| **Gradients** | `bg-brand-hero`<br/>`bg-button-cta`<br/>`bg-button-cta-inverse` | Pre-configured linear gradients for hero sections and call-to-action buttons. |
+
+---
+
+### 4.2 Custom Component Example
+
+Here is a practical example of a custom card component (`CustomCard.tsx`) built with the design tokens from `schemaColor.css` using standard Tailwind CSS syntax:
+
+```tsx title="src/components/CustomCard.tsx"
+import React from "react";
+
+interface CustomCardProps {
+  title: string;
+  category: string;
+  description: string;
+  badgeText?: string;
+  onAction?: () => void;
+}
+
+export function CustomCard({
+  title,
+  category,
+  description,
+  badgeText = "Active",
+  onAction,
+}: CustomCardProps) {
+  return (
+    <div className="bg-container-card-bg border border-container-card-border rounded-2xl p-6 shadow-sm transition-all hover:shadow-md">
+      {/* Header & Category Badge */}
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-xs font-semibold uppercase tracking-wider text-palette-brand-primary">
+          {category}
+        </span>
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-container-subtle-box-bg text-palette-brand-primary border border-container-subtle-box-border">
+          {badgeText}
+        </span>
+      </div>
+
+      {/* Title & Description */}
+      <h3 className="text-xl font-bold text-text-heading mb-2">
+        {title}
+      </h3>
+      <p className="text-sm text-text-body leading-relaxed mb-6">
+        {description}
+      </p>
+
+      {/* Action Footer */}
+      <div className="flex items-center justify-between pt-4 border-t border-container-card-border">
+        <a
+          href="#learn-more"
+          className="text-sm font-medium text-text-link hover:underline"
+        >
+          Learn more →
+        </a>
+
+        {/* Action Button styled with Theme Gradient */}
+        <button
+          onClick={onAction}
+          className="bg-button-cta text-text-on-primary px-4 py-2 rounded-lg text-sm font-semibold transition hover:opacity-90 active:scale-95"
+        >
+          View Details
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+:::tip Seamless Theme Switching
+Because your custom components consume tokens from `schemaColor.css`, switching themes (e.g., from `vert` to `noir` or a custom-generated theme) updates the appearance of both official Gaia UI components and your custom components automatically.
+:::

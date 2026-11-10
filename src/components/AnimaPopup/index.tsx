@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button } from '@navatech/gaia-ui';
+import { Button } from '@navatech/gaia-ui/base';
 import styles from './styles.module.css';
 
 export type TAnimaPopupSeverity = 'standard' | 'danger' | 'warning' | 'info' | 'success';
