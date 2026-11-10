@@ -52,7 +52,7 @@ yarn dlx gaia redeem <your-redeem-code>
   </TabItem>
 </Tabs>
 
-:::tip What happens during redeem?
+:::tip[What happens during redeem?]
 The CLI validates your code against the Gaia license server and generates a local license credentials file, `gaia-key.json`. Once completed, premium access is verified and theme generation and other premium features are immediately unlocked.
 :::
 
@@ -98,7 +98,7 @@ function RootComponent() {
 }
 ```
 
-:::note Why is this recommended?
+:::note[Why is this recommended?]
 - Directly wraps the root route tree where all child routes (`<Outlet />`) naturally reside.
 - Navigation components using routing hooks (`AnimaNavbar`, `SpeedDialMenu`) will seamlessly have access to both router and license contexts.
 - Clean separation between application bootstrap logic and UI routing context.
@@ -138,7 +138,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 ```
 
-:::warning Why is this less recommended?
+:::warning[Why is this less recommended?]
 - Wrapping outside `<RouterProvider>` means components outside the route tree cannot consume TanStack Router context.
 - If your provider needs to access router state or navigation hooks in the future, it will be outside the routing context.
 :::

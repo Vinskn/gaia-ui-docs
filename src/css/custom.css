@@ -408,8 +408,8 @@ button[class*="bg-red-600"] {
    Fixes resets caused by Tailwind / CSS imports on Docs pages
    ========================================================================== */
 
-/* 1. Markdown Headings */
-.markdown h1 {
+/* 1. Markdown Headings (Only for content without utility color override) */
+.markdown h1:not([class*="text-"]) {
   font-size: 2.25rem !important;
   font-weight: 700 !important;
   margin-top: 1.5rem !important;
@@ -418,7 +418,7 @@ button[class*="bg-red-600"] {
   color: #ffffff !important;
 }
 
-.markdown h2 {
+.markdown h2:not([class*="text-"]) {
   font-size: 1.65rem !important;
   font-weight: 700 !important;
   margin-top: 2rem !important;
@@ -429,7 +429,7 @@ button[class*="bg-red-600"] {
   color: #ffffff !important;
 }
 
-.markdown h3 {
+.markdown h3:not([class*="text-"]) {
   font-size: 1.3rem !important;
   font-weight: 600 !important;
   margin-top: 1.5rem !important;
@@ -641,14 +641,7 @@ button[class*="bg-red-600"] {
   list-style: none !important;
   padding: 0 !important;
   margin-bottom: 1.25rem !important;
-  gap: 0.35rem !important;
   font-size: 0.85rem !important;
-}
-
-.breadcrumbs__item:not(:last-child)::after {
-  content: '›' !important;
-  margin-left: 0.35rem !important;
-  opacity: 0.5;
 }
 
 .breadcrumbs__link {
